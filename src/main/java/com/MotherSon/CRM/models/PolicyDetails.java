@@ -12,8 +12,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name="pacakge_policy_details")
 public class PolicyDetails {
      
 	@Id
