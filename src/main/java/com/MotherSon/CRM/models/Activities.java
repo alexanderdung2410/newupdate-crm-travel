@@ -53,8 +53,8 @@ public class Activities {
 	
 	private LocalDateTime modifiedDate;
 	
-	@ManyToMany(mappedBy = "activities")
-    private Set<PackageitineraryDetails> packageitineraryDetails = new HashSet<>();
+//	@ManyToMany(mappedBy = "activities")
+//    private Set<PackageitineraryDetails> packageitineraryDetails = new HashSet<>();
 	
 	
 	@PrePersist
@@ -74,14 +74,14 @@ public class Activities {
 	
 	
 
-	public Set<PackageitineraryDetails> getPackageitineraryDetails() {
-		return packageitineraryDetails;
-	}
-
-
-	public void setPackageitineraryDetails(Set<PackageitineraryDetails> packageitineraryDetails) {
-		this.packageitineraryDetails = packageitineraryDetails;
-	}
+//	public Set<PackageitineraryDetails> getPackageitineraryDetails() {
+//		return packageitineraryDetails;
+//	}
+//
+//
+//	public void setPackageitineraryDetails(Set<PackageitineraryDetails> packageitineraryDetails) {
+//		this.packageitineraryDetails = packageitineraryDetails;
+//	}
 
 
 	public Long getId() {
