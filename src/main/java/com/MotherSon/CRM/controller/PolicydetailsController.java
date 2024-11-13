@@ -4,6 +4,7 @@ package com.MotherSon.CRM.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import com.MotherSon.CRM.security.services.PolicydetailsService;
 
 @RestController
 @RequestMapping("Motherson/crm/v1/policydetails")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class PolicydetailsController {
     
 	@Autowired
