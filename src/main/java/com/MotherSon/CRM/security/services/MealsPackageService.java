@@ -6,30 +6,37 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.MotherSon.CRM.models.MealsPackage;
-import com.MotherSon.CRM.repository.MealsPackageRepository;
+import com.MotherSon.CRM.models.Mealspackage;
+import com.MotherSon.CRM.repository.MealspackageRepository;
 
 @Service
-public class MealsPackageService {
+public class MealspackageService {
 	
 	
 	@Autowired
-	private MealsPackageRepository mealspackageRepository;
+	private MealspackageRepository mealspackageRepository;
 	
 	
-	public List<MealsPackage> getAllMealsPackage(){
-		return mealspackageRepository.findAll();
-		
-	}
 	
+//	public List<Mealspackage> getAllMealspackage(){
+//	return mealspackageRepository.findAll();
+//	
+//}
+
+public List<Mealspackage> getAllMealspackage() {
+	return mealspackageRepository.findAll();
+}
 	
-	public Optional<MealsPackage> getMealsPackageById(Long id){
-		return mealspackageRepository.findById(id);
-	}
-	
-	
-	public MealsPackage addMealsPackage(MealsPackage mealsPackage) {
-		return mealspackageRepository.save(mealsPackage);
-	}
+
+
+
+public Optional<Mealspackage> getMealspackageById(Long id){
+	return mealspackageRepository.findById(id);
+}
+
+
+public Mealspackage addMealspackage(Mealspackage mealspackage) {
+	return mealspackageRepository.save(mealspackage);
+}
 
 }

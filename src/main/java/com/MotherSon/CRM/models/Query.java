@@ -1,8 +1,9 @@
 package com.MotherSon.CRM.models;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,9 +16,16 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
+
 @Table(name = "query_master")
 public class Query {
 	
@@ -27,8 +35,8 @@ public class Query {
 	public Long id;
 	
 	
-	@NotBlank(message = "proposal Id is required")
-	@Column(name = "proposal_id" , nullable = false)
+//	@NotBlank(message = "proposal Id is required")
+//	@Column(name = "proposal_id" , nullable = false)
 	private String proposalId;
 	
 	@NotBlank(message = "requirementType is required")
@@ -37,23 +45,36 @@ public class Query {
 	
 	
 	//@NotBlank(message = " TravelDate is required")
-	//@Column(name = "travel_Date", nullable = false)
-	private LocalDateTime travelDate;
+	 @Column(name = "travel_Date", nullable = false)
+	  private LocalDateTime travelDate;
 	
 	
-	private int days;
+	//@Min(value = 1, message = "Days must be at least 1")
+	// @Column(name = "days", nullable = true)
+	 private Integer days;
 	
-	private int nights;
+	// @Min(value = 1, message = "Nights must be at least 1")
+	//@Column(name = "nights", nullable = true)
+	 private Integer nights;
 	
-	//@NotBlank(message = "TotalTravellers is required")
-	//@Column(name = "total_Travellers" , nullable = false)
-	private int totalTravellers;
+	 
+	 @Min(value = 1, message = "Total Travellers must be at least 1")
+	 @Max(value = 500, message = "Total Travellers cannot exceed 500")
+	 @Column(name = "total_Travellers", nullable = true)
+	 private Integer totalTravellers;
 	
-	private int adults;
+	 
+	 @Min(value = 0, message = "Adults cannot be negative")
+	 @Column(name = "adults", nullable = true)
+	 private Integer adults;
 	
-	private int kids;
+	 @Min(value = 0, message = "Kids cannot be negative")
+	 @Column(name = "kids", nullable = true)
+	 private Integer kids;
 	
-	private int infants;
+	 @Min(value = 0, message = "Infants cannot be negative")
+	 @Column(name = "infants", nullable = true)
+	 private Integer infants;
 	
 	@ManyToOne(fetch =FetchType.EAGER)
 	@JoinColumn(name = "pkg_id")
@@ -96,10 +117,12 @@ public class Query {
 	private String lname;
 	
 	@NotBlank(message = "Email id is required")
+	@Email(message = "Email ID must be a valid email address")
 	@Column(name = "Email_id" , nullable = false)
 	private String emailId;
 	
 	@NotBlank(message = "Contact No is required")
+	@Pattern(regexp = "^\\+?[0-9]{7,15}$", message = "Contact No must be a valid phone number")
 	@Column(name = "contact_No" , nullable = false)
 	private String contactNo;
 	
@@ -109,19 +132,25 @@ public class Query {
 	
 	private String foodPreferences;
 	
+	@PositiveOrZero(message = "Basic Cost cannot be negative")
 	private double basicCost;
 	
+	@PositiveOrZero(message = "GST cannot be negative")
 	private double gst;
 	
+	@PositiveOrZero(message = "Total Cost cannot be negative")
 	private double totalCost;
 	
+	//@PastOrPresent(message = "Query Date cannot be in the future")
 	private LocalDateTime query_Date;
 	
 	private String queryType;
 	
 	private String queryCreatedFrom;
 	
-	private Long queryAssigned;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id")
+	private User userId;
 	
 	private boolean emailStatus;
 	
@@ -132,6 +161,12 @@ public class Query {
 	
 	@PrePersist
 	protected void onCreate() {
+		
+		
+		 if (proposalId == null || proposalId.isEmpty()) {
+		        proposalId = "PROPOSAL-" + UUID.randomUUID().toString();  // Or any other custom logic
+		    }
+		 
 		query_Date = LocalDateTime.now();
 		lastUpdated_Date = LocalDateTime.now();
 	}
@@ -169,59 +204,64 @@ public class Query {
 	public LocalDateTime getTravelDate() {
 		return travelDate;
 	}
-//
+
 	public void setTravelDate(LocalDateTime travelDate) {
 		this.travelDate = travelDate;
 	}
 
-	public int getDays() {
-		return days;
-	}
+	
 
-	public void setDays(int days) {
+	public void setDays(Integer days) {
 		this.days = days;
 	}
 
-	public int getNights() {
+	public Integer getNights() {
 		return nights;
 	}
 
-	public void setNights(int nights) {
+	public void setNights(Integer nights) {
 		this.nights = nights;
 	}
 
-	public int getTotalTravellers() {
+	public Integer getTotalTravellers() {
 		return totalTravellers;
 	}
 
-	public void setTotalTravellers(int totalTravellers) {
+	public void setTotalTravellers(Integer totalTravellers) {
 		this.totalTravellers = totalTravellers;
 	}
 
-	public int getAdults() {
+	public Integer getAdults() {
 		return adults;
 	}
 
-	public void setAdults(int adults) {
+	public void setAdults(Integer adults) {
 		this.adults = adults;
 	}
 
-	public int getKids() {
+	public Integer getKids() {
 		return kids;
 	}
 
-	public void setKids(int kids) {
+	public void setKids(Integer kids) {
 		this.kids = kids;
 	}
 
-	public int getInfants() {
+	public Integer getInfants() {
 		return infants;
 	}
 
-	public void setInfants(int infants) {
+	public void setInfants(Integer infants) {
 		this.infants = infants;
 	}
 
+	public Pkg getPkg() {
+		return pkg;
+	}
+
+	public void setPkg(Pkg pkg) {
+		this.pkg = pkg;
+	}
 
 	public String getSalutation() {
 		return salutation;
@@ -327,16 +367,28 @@ public class Query {
 		this.queryCreatedFrom = queryCreatedFrom;
 	}
 
-	public Long getQueryAssigned() {
-		return queryAssigned;
-	}
-
-	public void setQueryAssigned(Long queryAssigned) {
-		this.queryAssigned = queryAssigned;
-	}
+//	public Long getQueryAssigned() {
+//		return queryAssigned;
+//	}
+//
+//	public void setQueryAssigned(Long queryAssigned) {
+//		this.queryAssigned = queryAssigned;
+//	}
+	
+	
+	
+	
 
 	public boolean isEmailStatus() {
 		return emailStatus;
+	}
+
+	public User getUserId() {
+		return userId;
+	}
+
+	public void setUserId(User userId) {
+		this.userId = userId;
 	}
 
 	public void setEmailStatus(boolean emailStatus) {
@@ -359,13 +411,15 @@ public class Query {
 		this.lastUpdated_Date = lastUpdated_Date;
 	}
 
-	public Pkg getPkg() {
-		return pkg;
+	public int getDays() {
+		return days;
 	}
 
-	public void setPkg(Pkg pkg) {
-		this.pkg = pkg;
+	public void setDays(int days) {
+		this.days = days;
 	}
+	
+
 	
 	
 	

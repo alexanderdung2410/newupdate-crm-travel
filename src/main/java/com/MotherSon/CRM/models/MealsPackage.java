@@ -1,22 +1,18 @@
 package com.MotherSon.CRM.models;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Mealspackage_Master")
-public class MealsPackage {
-	
+public class Mealspackage {
 	
 	
 	@Id
@@ -42,21 +38,13 @@ public class MealsPackage {
 	
 	private LocalDateTime modifieddate;
 	
-	@ManyToMany(mappedBy = "mealPackages")
-    private Set<PackageitineraryDetails> packageitineraryDetails = new HashSet<>();
+	
+	
+//	@ManyToMany(mappedBy = "mealPackages")
+//    private Set<PackageitineraryDetails> packageitineraryDetails = new HashSet<>();
 	
 	
 	
-	
-	
-	public Set<PackageitineraryDetails> getPackageitineraryDetails() {
-		return packageitineraryDetails;
-	}
-
-	public void setPackageitineraryDetails(Set<PackageitineraryDetails> packageitineraryDetails) {
-		this.packageitineraryDetails = packageitineraryDetails;
-	}
-
 	@PrePersist
 	protected void onCreate() {
 		createddate = LocalDateTime.now();
@@ -149,8 +137,8 @@ public class MealsPackage {
 		public void setModifieddate(LocalDateTime modifieddate) {
 			this.modifieddate = modifieddate;
 		}
-		
-		
+
+
 		
 
 }

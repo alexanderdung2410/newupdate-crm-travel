@@ -17,6 +17,22 @@ public class QueryService {
 	private QueryRepository queryRepository;
 	
 	
+	//private final QueryRepository queryRepository;
+
+//    @Autowired
+//    public QueryService(QueryRepository queryRepository) {
+//        this.queryRepository = queryRepository;
+//	
+//    }
+	public boolean existsByEmailId(String emailId) {
+        return queryRepository.existsByEmailId(emailId);
+    }
+	
+	
+	public boolean existsByContactNo(String contactNo) {
+        return queryRepository.existsByContactNo(contactNo);
+    }
+	
 	
 	public Optional<Query> getQueryById(Long id){
 		return queryRepository.findById(id);
@@ -46,3 +62,5 @@ public class QueryService {
 		return null;
 
 }}
+
+	

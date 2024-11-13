@@ -7,5 +7,12 @@ import com.MotherSon.CRM.models.Query;
 
 @Repository
 public interface QueryRepository extends JpaRepository<Query, Long> {
+	
+	boolean existsByEmailId(String emailId);
+
+	//boolean existsEmailId(String emailId); 
+	
+	boolean existsByContactNo(String contactNo);
+
 
 }

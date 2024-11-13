@@ -1,12 +1,10 @@
 package com.MotherSon.CRM.models;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
+
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,10 +13,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -28,7 +24,7 @@ import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "packageitinerary_Details")
-@JsonIgnoreProperties(value = { "mealPackages", "activities" },allowSetters=true)
+//@JsonIgnoreProperties(value = { "mealPackages", "activities" },allowSetters=true)
 public class PackageitineraryDetails {
 	
 	
@@ -71,7 +67,74 @@ public class PackageitineraryDetails {
 	public void setPackitid(PackageItinerary packitid) {
 		this.packitid = packitid;
 	}
+	
+	
+	
+	@Column(name="mealspackageid")
+	private String mealspackageid;
+	
+	
+	@Transient
+	 private List<Long> mealspackageIds;
+	
+	public void setMealspackageIds(List<Long> mealspackageIds) {
+	    this.mealspackageIds = mealspackageIds;
+	    this.mealspackageid = mealspackageIds.stream()
+	            .map(String::valueOf)
+	            .collect(Collectors.joining(","));
+	}
+	
+	
+	
+	public List<Long> getMealspackageIds() {
+	    if (mealspackageid == null || mealspackageid.isEmpty()) {
+	        return List.of();
+	    }
+	    return List.of(mealspackageid.split(","))
+	            .stream()
+	            .map(Long::valueOf)
+	            .collect(Collectors.toList());
+	}
+	
+	
+	
+	
 
+	
+	@Column(name="activitiesid")
+	private String activitiesid;
+	
+	
+	@Transient
+	 private List<Long> activitiesIds;
+	
+	public void setActivitiesIds(List<Long> activitiesIds) {
+	    this.activitiesIds = activitiesIds;
+	    this.activitiesid = activitiesIds.stream()
+	            .map(String::valueOf)
+	            .collect(Collectors.joining(","));
+	}
+	
+	
+	
+	public List<Long> getActivitiesIds() {
+	    if (activitiesid == null || activitiesid.isEmpty()) {
+	        return List.of();
+	    }
+	    return List.of(activitiesid.split(","))
+	            .stream()
+	            .map(Long::valueOf)
+	            .collect(Collectors.toList());
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	 @Column(name="sightseeingid")
 	 private String sightseeingid;
@@ -116,27 +179,16 @@ public class PackageitineraryDetails {
 	
 	
 	
-	@ManyToMany
-    @JoinTable(
-      name = "package_itinerarydetails_activitie", // Join table name
-      joinColumns = @JoinColumn(name = "package_itinerarydetails_id"), // Foreign key for this entity
-      inverseJoinColumns = @JoinColumn(name = "activities_id") // Foreign key for the related entity
-    )
-    private Set<Activities> activities = new HashSet<>();
+	
+	
+	
+	
+	
+	
+	
 	
 
 	
-	
-	@ManyToMany
-    @JoinTable(
-      name = "package_itinerarydetails_meal", // Join table name
-      joinColumns = @JoinColumn(name = "package_itinerarydetails_id"), // Foreign key for this entity
-      inverseJoinColumns = @JoinColumn(name = "mealspackage_id") // Foreign key for the related entity
-    )
-    private Set<MealsPackage> mealPackages = new HashSet<>();
-	
-	
-	//@Column(name = "created_Date" , nullable = false)
 	private LocalDateTime createdDate;
 	
 	//@Column(name = "modified_Date", nullable = false)
@@ -247,15 +299,18 @@ public class PackageitineraryDetails {
 	}
 
 
-	public Set<MealsPackage> getMealPackages() {
-		return mealPackages;
+
+	public String getActivitiesid() {
+		return activitiesid;
 	}
 
 
-	public void setMealPackages(Set<MealsPackage> mealPackages) {
-		this.mealPackages = mealPackages;
+	public void setActivitiesid(String activitiesid) {
+		this.activitiesid = activitiesid;
 	}
 
+
+	
 
 	public String getCategory() {
 		return category;
@@ -267,16 +322,15 @@ public class PackageitineraryDetails {
 	}
 
 
-	public Set<Activities> getActivities() {
-		return activities;
+	public String getMealspackageid() {
+		return mealspackageid;
 	}
 
 
-	public void setActivities(Set<Activities> activities) {
-		this.activities = activities;
+	public void setMealspackageid(String mealspackageid) {
+		this.mealspackageid = mealspackageid;
 	}
-
 
 	
-
+	
 }

@@ -1,11 +1,14 @@
 package com.MotherSon.CRM.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.MotherSon.CRM.models.Query;
 import com.MotherSon.CRM.security.services.QueryService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -46,8 +51,30 @@ public class QueryController {
 	
 	
 	@PostMapping("/create")
-	public Query addQuery(@RequestBody Query query) {
-		return this.queryService.addQuery(query);
+	public ResponseEntity<?> addQuery(@Valid @RequestBody Query query, BindingResult result ) {
+		
+
+		if (result.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            result.getFieldErrors().forEach(error -> 
+                errors.put(error.getField(), error.getDefaultMessage()));
+            return ResponseEntity.badRequest().body(errors);
+        }
+		
+		if (queryService.existsByEmailId(query.getEmailId())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("Query with the emailId " + query.getEmailId() + " already exists.");
+        }
+		
+		
+		if (queryService.existsByContactNo(query.getContactNo())) {
+	        return ResponseEntity.status(HttpStatus.CONFLICT)
+	                .body("Query with the ContactNo " + query.getContactNo() + " already exists.");
+	    }
+		
+		Query savedQuery = queryService.addQuery(query);
+		 return ResponseEntity.status(HttpStatus.CREATED).body("Query is created:");
+		
 	}
 	
 	
@@ -62,7 +89,7 @@ public class QueryController {
 			qu.setProposalId(query.getProposalId());
 			qu.setRequirementType(query.getRequirementType());
 			qu.setTravelDate(query.getTravelDate());
-			qu.setDays(query.getDays());
+			//qu.setDays(query.getDays());
 			qu.setNights(query.getNights());
 			
 			qu.setTotalTravellers(query.getTotalTravellers());
@@ -86,7 +113,7 @@ public class QueryController {
 			qu.setQueryType(query.getQueryType());
 			
 			qu.setQueryCreatedFrom(query.getQueryCreatedFrom());
-			qu.setQueryAssigned(query.getQueryAssigned());
+			//qu.setQueryAssigned(query.getQueryAssigned());
 			qu.setEmailStatus(query.isEmailStatus());
 			qu.setLeadStatus(query.isLeadStatus());
 			qu.setLastUpdated_Date(query.getLastUpdated_Date());

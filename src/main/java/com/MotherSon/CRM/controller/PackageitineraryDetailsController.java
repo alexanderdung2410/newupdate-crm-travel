@@ -1,6 +1,6 @@
 package com.MotherSon.CRM.controller;
 
-import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.MotherSon.CRM.models.PackageitineraryDetails;
+import com.MotherSon.CRM.repository.ActivitiesRepository;
 import com.MotherSon.CRM.repository.HotelServiceImpl;
+import com.MotherSon.CRM.repository.MealspackageRepository;
 import com.MotherSon.CRM.repository.SightseeingRepository;
 import com.MotherSon.CRM.security.services.PackageitineraryDetailsService;
 
@@ -36,22 +38,32 @@ public class PackageitineraryDetailsController {
 	@Autowired
 	private SightseeingRepository sightseeingrepository;
 	
+	@Autowired
+	private ActivitiesRepository activitiesRepository;
+	
+	
+	@Autowired
+	private MealspackageRepository mealspackageRepository;
+	
 	
 	
 	
 	@GetMapping("/getby/{id}")
-	public ResponseEntity<PackageitineraryDetails> getPackageitineraryDetailsById(@PathVariable Long id){
-		Optional<PackageitineraryDetails> packageitinerarydetails = packageitinerarydetailsService.getPackageitineraryDetailsById(id);
-		return (ResponseEntity<PackageitineraryDetails>) packageitinerarydetails.map(value  -> new ResponseEntity<>(value, HttpStatus.OK))
-				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-	}
+    public ResponseEntity<PackageitineraryDetails> PackageitineraryDetails(@PathVariable Long id) {
+        Optional<PackageitineraryDetails> packageItineraryDetails = packageitinerarydetailsService.getPackageitineraryDetailsById(id);
+        if (packageItineraryDetails.isPresent()) {
+            return ResponseEntity.ok(packageItineraryDetails.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 	
 	
 	
-	@GetMapping("/getAll")
-	public List<PackageitineraryDetails> getAllPackageitineraryDetails(){
-		return packageitinerarydetailsService.getAllPackageitineraryDetails();
-	}
+//	@GetMapping("/getAll")
+//	public List<PackageitineraryDetails> getAllPackageitineraryDetails(){
+//		return packageitinerarydetailsService.getAllPackageitineraryDetails();
+//	}
 	
 	
 	
@@ -78,6 +90,23 @@ public class PackageitineraryDetailsController {
 	            throw new IllegalArgumentException("Sightseeing ID " + sightseeingId + " does not exist");
 	        }
 	    }
+	    
+	    
+	    
+	    for (Long activitiesId : packageitineraryDetails.getActivitiesIds()) {
+	        if (!activitiesRepository.existsById(activitiesId)) {
+	            throw new IllegalArgumentException("Activities ID " + activitiesId + " does not exist");
+	        }
+	    }
+	    
+	    
+	    for (Long mealspackageId : packageitineraryDetails.getMealspackageIds()) {
+	        if (!mealspackageRepository.existsById(mealspackageId)) {
+	            throw new IllegalArgumentException("Mealspackage ID " + mealspackageId + " does not exist");
+	        }
+	    }
+	    
+	    
 	}
 
 	
