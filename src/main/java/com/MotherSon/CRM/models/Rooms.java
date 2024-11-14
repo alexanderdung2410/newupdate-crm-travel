@@ -3,6 +3,7 @@ package com.MotherSon.CRM.models;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -37,6 +38,7 @@ import jakarta.validation.constraints.NotBlank;
 
 @Entity
 	@Table(name="rooms_master")
+@JsonIgnoreProperties(value = { "rooms" },allowSetters=true)
 	public class Rooms {
 		
 		@Id
@@ -50,7 +52,7 @@ import jakarta.validation.constraints.NotBlank;
 		
 		@OneToMany(mappedBy = "rooms", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 		// @JsonIgnore
-		@JsonManagedReference
+//		@JsonManagedReference
 		private Set<RoomTypes> roomtypes;
 		 
 		

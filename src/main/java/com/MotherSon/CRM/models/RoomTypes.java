@@ -71,7 +71,7 @@ import jakarta.validation.constraints.NotBlank;
 		@ManyToOne(fetch = FetchType.EAGER)
 		@JoinColumn(name = "rooms_id")
 		//@JsonIgnore
-		@JsonBackReference
+//		@JsonBackReference
 		private Rooms rooms;
 		
 		
