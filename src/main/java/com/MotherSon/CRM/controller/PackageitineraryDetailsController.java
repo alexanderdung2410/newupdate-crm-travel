@@ -1,6 +1,7 @@
 package com.MotherSon.CRM.controller;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,10 +61,10 @@ public class PackageitineraryDetailsController {
 	
 	
 	
-//	@GetMapping("/getAll")
-//	public List<PackageitineraryDetails> getAllPackageitineraryDetails(){
-//		return packageitinerarydetailsService.getAllPackageitineraryDetails();
-//	}
+	@GetMapping("/getAll")
+	public List<PackageitineraryDetails> getAllPackageitineraryDetails(){
+		return packageitinerarydetailsService.getAllPackageitineraryDetails();
+	}
 	
 	
 	
