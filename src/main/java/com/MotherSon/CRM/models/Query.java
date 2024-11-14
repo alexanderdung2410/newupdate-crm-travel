@@ -154,9 +154,22 @@ public class Query {
 	
 	private boolean emailStatus;
 	
-	private boolean leadStatus;
-	
+	private String leadStatus;
+		
 	private LocalDateTime lastUpdated_Date;
+	
+private String ipAddress;
+	
+ 
+	
+	public String getIpAddress() {
+		return ipAddress;
+	}
+ 
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
+ 
 	
 	
 	@PrePersist
@@ -395,11 +408,13 @@ public class Query {
 		this.emailStatus = emailStatus;
 	}
 
-	public boolean isLeadStatus() {
+	
+
+	public String getLeadStatus() {
 		return leadStatus;
 	}
 
-	public void setLeadStatus(boolean leadStatus) {
+	public void setLeadStatus(String leadStatus) {
 		this.leadStatus = leadStatus;
 	}
 

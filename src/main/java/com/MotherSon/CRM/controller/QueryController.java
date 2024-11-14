@@ -115,12 +115,10 @@ public class QueryController {
 			qu.setQueryCreatedFrom(query.getQueryCreatedFrom());
 			//qu.setQueryAssigned(query.getQueryAssigned());
 			qu.setEmailStatus(query.isEmailStatus());
-			qu.setLeadStatus(query.isLeadStatus());
+			qu.setLeadStatus(query.getLeadStatus());
 			qu.setLastUpdated_Date(query.getLastUpdated_Date());
-			
-			
-		
-		
+			qu.setIpAddress(query.getIpAddress());
+			 
 			queryService.updateQuery(qu);
 		return ResponseEntity.ok(qu);
 	}
