@@ -95,7 +95,7 @@ public class Controller {
 	private String timestamp;
 
 	public static String uploadDirectory = System.getProperty("user.dir") + "/src/main/image/countryimages";
-	 @PreAuthorize("hasAuthority('Super_Admin')")
+//	 @PreAuthorize("hasAuthority('Super_Admin')")
 	@PostMapping("/create")
 	public ResponseEntity<?> saveCountry(@Valid @ModelAttribute Country country,BindingResult result, @RequestParam("image") MultipartFile[] files )
 			throws IOException {
