@@ -141,8 +141,7 @@ import jakarta.validation.constraints.Size;
 		private String hname;
 		
         
-		@Size(min = 2, max = 300, message = " hotel name must be between 2 and 70 characters")
-		
+		@Size(min = 2, message = "hotel description minimum 2 characters")
 		@NotBlank(message = "hoteldescription is required name is required")
 		private String hdescription;
 		
